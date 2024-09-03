@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexController!{% endblock %}
+
+{% block body %}
+  <section>
+    <div class="wrapper">
+      {{ form(form, { 'attr': { 'class': 'form-group', 'data-turbo': 'false' } }) }}
+    </div>
+  </section>
+  <section class="result">
+    <div class="wrapper">
+      {% if result is not empty %}
+        <div class="table">
+          {% for image in result.images %}
+            <div>
+              <img src="{{ image.url }}" alt="Image"/>
+            </div>
+          {% endfor %}
+        </div>
+        <p>Всего картинок: {{ result.count }}</p>
+        <p>Максимальный размер: {{ result.total|number_format(6) }} MB</p>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

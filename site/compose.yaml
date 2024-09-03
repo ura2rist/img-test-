@@ -1,0 +1,26 @@
+services:
+
+  php:
+    build: ./
+    container_name: funtop-php
+    environment:
+      - APACHE_RUN_USER=www-data
+      - DATABASE_URL=mysql://root:root@parser-mysql:3306/parser?serverVersion=16&charset=utf8
+    working_dir: /var/www/html/
+    volumes:
+      - ./:/var/www/html/
+      - ../save/uploads:/var/www/html/uploads
+      - ../Docker/php:/usr/local/etc/php
+      - ../Docker/nginx/conf.d:/etc/nginx/conf.d
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www/html/
+      - ../Docker/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php
